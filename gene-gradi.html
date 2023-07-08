@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style type="text/css">
+    *{
+      box-sizing: border-box;
+    }
+    html{
+      height: 100%;
+    }
+    body{
+      margin: 0;
+      padding: 8px;
+      background-image: linear-gradient(to right, #484747, #30300d);
+      
+    }
+    h1{
+      font-size: 1.2em;
+padding: 10px;
+    }
+  /* Estilamos nuestro generador de gradiente */
+#gradient-generator {
+  font-family: sans-serif;
+  text-align: center;
+  max-width: 600px;
+  margin: 0px auto;
+  padding: 0 20px;
+  background: rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  color: rgb(0, 0, 0,.6);
+}
+
+#gradient-generator form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  
+  padding: 20px;
+  background: #f4f4f4;
+  border-radius: 10px;
+}
+
+#gradient-generator label {
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+#gradient-generator input[type="color"] {
+  width: 100%;
+  padding: 2px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  appearance: none;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#gradient-generator input[type="radio"] {
+  margin: 0 -5px;
+  display: inline-block;
+  font-size: 16px;
+}
+
+#gradient {
+  width: 100%;
+  height: 250px;
+  background-image: linear-gradient(to right, #ff0000, #ffff00);
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+#code {
+  width: 100%;
+  height: 80px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  font-family: monospace;
+  font-size: 16px;
+  outline: none;
+}
+
+/* Hacemos que nuestro generador sea responsive */
+@media (max-width: 600px) {
+#gradient-generator   form {
+    flex-direction: column;
+  }
+ #gradient-generator  input[type="color"] {
+    width: 100%;
+    margin-bottom: 10px;
+    font-weight: 900;
+  }
+
+  #gradient {
+    height: 200px;
+  }
+}
+
+/* Estilos adicionales */
+#gradient-generator form {
+  margin-bottom: 40px;
+}
+
+#gradient {
+  transition: all 0.3s ease;
+}
+
+#gradient:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#code {
+  background: #f9f9f9;
+  font-size: 14px;
+  overflow: auto;
+  resize: none;
+}
+
+  </style>
+</head>
+<body>
+<!-- Creamos nuestro generador de gradiente -->
+<div id="gradient-generator">
+  <h1>Generador de gradiente</h1>
+
+  <!-- El usuario puede seleccionar los colores de gradiente aquí -->
+  <form>
+    <label for="start-color">Color de inicio:</label><br>
+    <input type="color" id="start-color" value="#ff0000"><br>
+    <label for="end-color">Color final:</label><br>
+    <input type="color" id="end-color" value="#ffff00"><br>
+
+    <!-- El usuario puede especificar la dirección del gradiente aquí -->
+    <label>Dirección del gradiente:</label>
+    <input type="radio" name="direction" value="to right" checked>De izquierda a derecha
+    <input type="radio" name="direction" value="to bottom">De arriba a abajo<br>
+    <input type="radio" name="direction" value="to top right">Diagonal hacia la derecha
+  </form>
+
+  <!-- Mostramos el gradiente resultante -->
+  <div id="gradient"></div>
+  <!-- Mostramos el código del gradiente -->
+  <label>Código del gradiente:</label><br>
+  <textarea id="code"></textarea>
+</div>
+
+
+<script type="text/javascript">
+  // Cuando el usuario cambie los colores de gradiente o la dirección del gradiente, actualizamos el gradiente resultante y el código del gradiente
+const startColorInput = document.getElementById('start-color');
+const endColorInput = document.getElementById('end-color');
+const directionInputs = document.querySelectorAll('input[name="direction"]');
+startColorInput.addEventListener('change', updateGradient);
+endColorInput.addEventListener('change', updateGradient);
+directionInputs.forEach(input => input.addEventListener('change', updateGradient));
+
+function updateGradient() {
+  const startColor = startColorInput.value;
+  const endColor = endColorInput.value;
+  const direction = Array.from(directionInputs).find(input => input.checked).value;
+  const gradient = document.getElementById('gradient');
+  gradient.style.backgroundImage = `linear-gradient(${direction}, ${startColor}, ${endColor})`;
+  const code = document.getElementById('code');
+  code.value = `background-image: linear-gradient(${direction}, ${startColor}, ${endColor});`;
+}
+
+</script>
+</body>
+</html>
